@@ -6591,11 +6591,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rodri\\Desktop\\tarea api+react.js\\webapi\\webapi.csproj",
+      "projectUniqueName": "C:\\Users\\rodri\\Documents\\GitHub\\Crud-Empleados\\webapi\\webapi.csproj",
       "projectName": "webapi",
-      "projectPath": "C:\\Users\\rodri\\Desktop\\tarea api+react.js\\webapi\\webapi.csproj",
+      "projectPath": "C:\\Users\\rodri\\Documents\\GitHub\\Crud-Empleados\\webapi\\webapi.csproj",
       "packagesPath": "C:\\Users\\rodri\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rodri\\Desktop\\tarea api+react.js\\webapi\\obj\\",
+      "outputPath": "C:\\Users\\rodri\\Documents\\GitHub\\Crud-Empleados\\webapi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\rodri\\AppData\\Roaming\\NuGet\\NuGet.Config",
