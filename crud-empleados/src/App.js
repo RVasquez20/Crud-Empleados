@@ -2,14 +2,14 @@ import React, { useState,useEffect } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import {Modal,ModalBody,ModalFooter,ModalHeader} from 'reactstrap';
+import {Button, Modal,ModalBody,ModalFooter,ModalHeader} from 'reactstrap';
 
 function App() {
-const baseUrl="https://localhost:5001/api/Empleados";
+const baseUrl="https://localhost:5001/API/Empleados";
   const [data, setData]=useState([]);
   const [modalModificar,setModalModificar]=useState(false);
   const [modalAgregar,setModalAgregar]=useState(false);
-
+  const [modalEliminar,setModalEliminar]=useState(false);
   const [gestorSeleccionado,setGestorSeleccionado]=useState({
     id_Empleados: '',
     codigo: '',
@@ -33,6 +33,9 @@ const AbrirCerrarModalAgregar=()=>{
 }
 const AbrirCerrarModalModificar=()=>{
   setModalModificar(!modalModificar);
+}
+const AbrirCerrarModalEliminar=()=>{
+  setModalEliminar(!modalEliminar);
 }
 const peticionGet=async()=>{
   await axios.get(baseUrl)
@@ -70,11 +73,25 @@ const peticionPut=async()=>{
     console.log('Error-->');
   })
 }
+const peticionDelete=async()=>{
+  gestorSeleccionado.id_Empleados=parseInt(gestorSeleccionado.id_Empleados);
+  gestorSeleccionado.id_puesto=parseInt(gestorSeleccionado.id_puesto);
+  
+  await axios.delete(baseUrl+"/"+gestorSeleccionado.id_Empleados)
+  .then(response=>{
+    setData(data.filter(gestor=>gestor.id_Empleados!==response.data));
+   
+    AbrirCerrarModalEliminar();
+    peticionGet();
+  }).catch(error=>{
+    console.log('Error-->');
+  })
+}
 
 const seleccionarGestor=(gestor, caso)=>{
   setGestorSeleccionado(gestor);
 (caso==="Modificar")?
-AbrirCerrarModalModificar():AbrirCerrarModalModificar();
+AbrirCerrarModalModificar():AbrirCerrarModalEliminar();
 }
 useEffect(()=>{
  
@@ -82,9 +99,11 @@ peticionGet();
 },[])
 
   return (
-    <div className="App">
+    <div className="App" className="container">
       <br></br>
       <button className="btn btn-success" onClick={()=>AbrirCerrarModalAgregar()}>Agregar Empleado</button>
+      <br></br>
+      <br></br>
      <table className="table table-bordered">
         <thead>
           <tr>
@@ -112,7 +131,7 @@ peticionGet();
             <td>{gestor.id_puesto}</td>
             <td>
               <button className="btn btn-primary" onClick={()=>seleccionarGestor(gestor,"Modificar")}>Modificar</button>{"    "}
-              <button className="btn btn-danger">Eliminar</button>
+              <button className="btn btn-danger" onClick={()=>seleccionarGestor(gestor,"Eliminar")}>Eliminar</button>
             </td>
           </tr>
         ))}
@@ -141,7 +160,7 @@ peticionGet();
           <input type="text" className="form-control" name="telefono" onChange={handleChange}/>
           <label>Fecha De Nacimiento:</label>
           <br/>
-          <input type="datetime" className="form-control" name="fecha_nacimiento" onChange={handleChange}/>
+          <input type="date" className="form-control" name="fecha_nacimiento" onChange={handleChange}/>
           <label>Id Puesto:</label>
           <br/>
           <input type="number" className="form-control" name="id_puesto" onChange={handleChange}/>
@@ -187,6 +206,21 @@ peticionGet();
        <ModalFooter>
        <button className="btn btn-primary" onClick={()=>peticionPut()}>Modificar</button>
        <button className="btn btn-danger" onClick={()=>AbrirCerrarModalModificar()}>Cancelar</button>
+       </ModalFooter>
+     </Modal>
+
+
+     <Modal isOpen={modalEliminar}>
+       <ModalBody>
+         ¡¿Estas Seguro que deseas Eliminar a {gestorSeleccionado && gestorSeleccionado.nombres} de la base de datos??!!
+       </ModalBody>
+       <ModalFooter>
+         <button className="btn btn-danger" onClick={()=>peticionDelete()}>
+           Sí
+         </button>
+         <button className="btn btn-secondary" onClick={()=>AbrirCerrarModalEliminar()}>
+           No
+         </button>
        </ModalFooter>
      </Modal>
     </div>
