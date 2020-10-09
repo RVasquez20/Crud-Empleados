@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import {Button, Modal,ModalBody,ModalFooter,ModalHeader} from 'reactstrap';
+import {Modal,ModalBody,ModalFooter,ModalHeader} from 'reactstrap';
 
 function App() {
 const baseUrl="https://localhost:5001/API/Empleados";
@@ -104,10 +104,9 @@ peticionGet();
       <button className="btn btn-success" onClick={()=>AbrirCerrarModalAgregar()}>Agregar Empleado</button>
       <br></br>
       <br></br>
-     <table className="table table-bordered">
+     <table className="table table-dark table-hover" style={{textAlign:"center"}}>
         <thead>
           <tr>
-            <td>ID</td>
             <td>Codigo</td>
             <td>Nombres</td>
             <td>Apellidos</td>
@@ -121,7 +120,6 @@ peticionGet();
         <tbody>
         {data.map(gestor=>(
           <tr key={gestor.id_Empleados}>
-            <td>{gestor.id_Empleados}</td>
             <td>{gestor.codigo}</td>
             <td>{gestor.nombres}</td>
             <td>{gestor.apellidos}</td>
@@ -137,33 +135,32 @@ peticionGet();
         ))}
         </tbody>
      </table>
-
-
      <Modal isOpen={modalAgregar}>
        <ModalHeader>Agragar Un nuevo Empleado</ModalHeader>
        <ModalBody>
         <div className="form-group">
           <label>Codigo:</label>
           <br/>
-          <input type="text" className="form-control" name="codigo" onChange={handleChange}/>
+          <input type="text" className="form-control" name="codigo" onChange={handleChange} placeholder="Introdusca su Codigo"/>
           <label>Nombres:</label>
           <br/>
-          <input type="text" className="form-control" name="nombres" onChange={handleChange}/>
+          <input type="text" className="form-control" name="nombres" onChange={handleChange} placeholder="Introdusca su Nombre"/>
           <label>Apellidos:</label>
           <br/>
-          <input type="text" className="form-control" name="apellidos" onChange={handleChange}/>
+          <input type="text" className="form-control" name="apellidos" onChange={handleChange} placeholder="Introdusca su Apellido"/>
           <label>Direccion:</label>
           <br/>
-          <input type="text" className="form-control" name="direccion" onChange={handleChange}/>
+          <input type="text" className="form-control" name="direccion" onChange={handleChange} placeholder="Introdusca su Direccion"/>
           <label>Telefono:</label>
           <br/>
-          <input type="text" className="form-control" name="telefono" onChange={handleChange}/>
+          <input type="text" className="form-control" name="telefono" onChange={handleChange} placeholder="Introdusca su Telefono"/>
           <label>Fecha De Nacimiento:</label>
           <br/>
           <input type="date" className="form-control" name="fecha_nacimiento" onChange={handleChange}/>
+          
           <label>Id Puesto:</label>
           <br/>
-          <input type="number" className="form-control" name="id_puesto" onChange={handleChange}/>
+          <input type="number" className="form-control" name="id_puesto" onChange={handleChange} placeholder="Introdusca su Id de Puesto"/>
         </div>
        </ModalBody>
        <ModalFooter>
