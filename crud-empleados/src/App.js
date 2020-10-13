@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import {Modal,ModalBody,ModalFooter,ModalHeader} from 'reactstrap';
+import { render } from '@testing-library/react';
 
 function App() {
 const baseUrl="https://localhost:5001/API/Empleados";
@@ -10,6 +11,7 @@ const baseUrl="https://localhost:5001/API/Empleados";
   const [modalModificar,setModalModificar]=useState(false);
   const [modalAgregar,setModalAgregar]=useState(false);
   const [modalEliminar,setModalEliminar]=useState(false);
+  const [modalLista,setModalLista]=useState(false);
   const [gestorSeleccionado,setGestorSeleccionado]=useState({
     id_Empleados: '',
     codigo: '',
@@ -36,6 +38,9 @@ const AbrirCerrarModalModificar=()=>{
 }
 const AbrirCerrarModalEliminar=()=>{
   setModalEliminar(!modalEliminar);
+}
+const AbrirCerrarModalLista=()=>{
+  setModalLista(!modalLista);
 }
 const peticionGet=async()=>{
   await axios.get(baseUrl)
@@ -99,9 +104,37 @@ peticionGet();
 },[])
 
   return (
-    <div className="App" className="container">
+   
+    <div className="App" >
+<nav className="navbar navbar-expand-md bg-dark navbar-dark" style={{width:"100%"}} >
+  <ul className="navbar-nav"style={{marginLeft:"35%"}}>
+
+    <li className="nav-item">
+    <button className="btn btn-primary" onClick={()=>AbrirCerrarModalLista()}><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-clipboard-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+  <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3zM8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
+</svg> &ensp;Lista de Empleados</button>&ensp;
+    </li>
+    <li className="nav-item">
+    <button className="btn btn-primary" onClick={()=>AbrirCerrarModalAgregar()}><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-card-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path fill-rule="evenodd" d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"/>
+                            <circle cx="3.5" cy="5.5" r=".5"/>
+                            <circle cx="3.5" cy="8" r=".5"/>
+                            <circle cx="3.5" cy="10.5" r=".5"/>
+                            </svg>&ensp;Agregar Empleado</button>
+    </li>
+  </ul>
+</nav>    
+       <br></br>
+       <br></br>
+       
+    <Modal isOpen={modalLista} className="modal-dialog modal-xl">
+    <ModalHeader>Listado de  Empleados</ModalHeader>
+       <ModalBody>
+       
       <br></br>
-      <button className="btn btn-success" onClick={()=>AbrirCerrarModalAgregar()}>Agregar Empleado</button>
+     
       <br></br>
       <br></br>
      <table className="table table-dark table-hover" style={{textAlign:"center"}}>
@@ -135,6 +168,11 @@ peticionGet();
         ))}
         </tbody>
      </table>
+     </ModalBody>
+     <ModalFooter>
+     <button className="btn btn-danger" onClick={()=>AbrirCerrarModalLista()}>Cancelar</button>
+       </ModalFooter>
+     </Modal>
      <Modal isOpen={modalAgregar}>
        <ModalHeader>Agragar Un nuevo Empleado</ModalHeader>
        <ModalBody>
@@ -222,6 +260,7 @@ peticionGet();
      </Modal>
     </div>
   );
+
 }
 
 export default App;
